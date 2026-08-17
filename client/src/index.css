@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --spectrum: #2F4BF0, #D6246E, #12876F, #7A46E0, #E08700, #0E8FA8;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-feature-settings: 'ss01' 1, 'cv01' 1;
+  }
+
+  /* Keyboard focus stays visible everywhere. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-canvas rounded-md;
+  }
+
+  h1, h2, h3 {
+    @apply font-display tracking-[-0.02em];
+  }
+
+  ::selection {
+    @apply bg-ink text-white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-4 sm:px-6 lg:px-8;
+  }
+
+  /* The signature: a six-segment colour rail, one segment per category. */
+  .spectrum {
+    @apply flex h-1 w-full overflow-hidden rounded-full;
+  }
+  .spectrum > span {
+    @apply block h-full flex-1 origin-left animate-spectrum-in;
+  }
+
+  .eyebrow {
+    @apply font-mono text-2xs uppercase tracking-[0.14em] text-ink-mute;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-card;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-line/60;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent;
+    animation: shimmer 1.6s infinite;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer utilities {
+  .clamp-1, .clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .clamp-1 { -webkit-line-clamp: 1; }
+  .clamp-2 { -webkit-line-clamp: 2; }
+}
